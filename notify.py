@@ -1,20 +1,17 @@
 from typing import NamedTuple
 
+import dotenv
 import requests
 import argparse
 import os
 
+import _args
+
+dotenv.load_dotenv()
+
 
 def main():
-    # Set up the argument parser
-    parser = argparse.ArgumentParser(
-        description="Send a message (with an optional attachment) to a Discord channel via webhook")
-    parser.add_argument('--webhook_url', required=True, help='The Discord Webhook URL')
-    parser.add_argument('--message', required=True, help='The message to send')
-    parser.add_argument('--file', help='The path to the file to attach', default=None)
-
-    # Parse the arguments
-    args = parser.parse_args()
+    args = _args.parse_args()
 
     # Prepare the data payload
     data = {
@@ -23,8 +20,8 @@ def main():
 
     # Prepare the file payload if a file path is provided
     files = {}
-    if args.file:
-        files['file'] = load_file(args.file)
+    if args.file_path:
+        files['file'] = load_file(args.file_path)
 
     # Post the message and file to the Discord webhook
     response = requests.post(args.webhook_url, data=data, files=files)

@@ -27,7 +27,7 @@ def parse_args(
 
     webhook_url = args.webhook_url or os.getenv('webhook_url')
 
-    if webhook_url_type:
+    if webhook_url_type is not None and os.getenv(webhook_url_type):
         webhook_url = os.getenv(webhook_url_type)
 
     if webhook_url is None:

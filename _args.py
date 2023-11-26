@@ -15,7 +15,7 @@ class ParsedArgs(NamedTuple):
 
 
 def parse_args(
-        webhook_url_type: Optional[Literal['webhook_url_error', 'webhook_url_info']] = None
+        webhook_url_type: Optional[Literal['WEBHOOK_URL_ERROR', 'WEBHOOK_URL_INFO']] = None
 ) -> ParsedArgs:
     parser = argparse.ArgumentParser(
         description="Send a message (with an optional attachment) to a Discord channel via webhook")
@@ -25,13 +25,13 @@ def parse_args(
 
     args = parser.parse_args()
 
-    webhook_url = args.webhook_url or os.getenv('webhook_url')
+    webhook_url = args.webhook_url or os.getenv('WEBHOOK_URL')
 
     if webhook_url_type is not None and os.getenv(webhook_url_type):
         webhook_url = os.getenv(webhook_url_type)
 
     if webhook_url is None:
-        print(f"{webhook_url_type or 'webhook_url'} not found in .env or as an env var, and --webhook_url not set")
+        print(f"{webhook_url_type or 'WEBHOOK_URL'} not found in .env or as an env var, and --webhook_url not set")
         sys.exit(1)
 
     return ParsedArgs(

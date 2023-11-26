@@ -3,7 +3,7 @@ import _send
 
 
 def send_info():
-    args = _args.parse_args(webhook_url_type='WEBHOOK_URL_INFO')
+    args = _args.parse_args(webhook_url_type='WEBHOOK_URL_ERROR')
     _send.send(args)
 
 

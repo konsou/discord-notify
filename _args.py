@@ -21,12 +21,7 @@ def parse_args() -> ParsedArgs:
     parser = argparse.ArgumentParser(
         description="Send a message (with an optional attachment) to a Discord channel via a webhook"
     )
-    parser.add_argument(
-        "--webhook_url",
-        required=False,
-        help="The Discord Webhook URL (read from .env if not set)",
-    )
-    parser.add_argument("--message", required=True, help="The message to send")
+    parser.add_argument("message", help="The message to send")
     parser.add_argument(
         "--level",
         required=False,
@@ -35,6 +30,11 @@ def parse_args() -> ParsedArgs:
         help=f"Message level. Valid values: {', '.join([i.value for i in message_.MessageLevel])}",
     )
     parser.add_argument("--file", help="The path to the file to attach", default=None)
+    parser.add_argument(
+        "--webhook_url",
+        required=False,
+        help="The Discord Webhook URL (read from .env if not set)",
+    )
     parser.epilog = "Env vars read: WEBHOOK_URL for info level message, WEBHOOK_URL_ERROR for error level message"
 
     args = parser.parse_args()

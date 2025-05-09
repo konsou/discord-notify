@@ -5,6 +5,8 @@ from typing import NamedTuple, Optional, Literal
 
 import dotenv
 
+import _conf
+import _message_level
 import _message_level as message_
 
 dotenv.load_dotenv()
@@ -31,33 +33,23 @@ def parse_args() -> ParsedArgs:
     )
     parser.add_argument("--file", help="The path to the file to attach", default=None)
     parser.add_argument(
-        "--webhook_url",
+        "--webhook-url",
         required=False,
         help="The Discord Webhook URL (read from .env if not set)",
     )
-    parser.epilog = "Env vars read: WEBHOOK_URL for info level message, WEBHOOK_URL_ERROR for error level message"
+    parser.add_argument(
+        "--settings-file",
+        required=False,
+        default=f"{os.getenv('HOME')}/.config/discord-notify/config.json",
+        help="The path to settings file to read WEBHOOK_URL and WEBHOOK_URL_ERROR from. Default: %(default)s",
+    )
+    parser.epilog = "Env vars read: WEBHOOK_URL for info level message, WEBHOOK_URL_ERROR for error level message. Webhook lookup order: command line argument > .env file > environment variable > config file"
 
     args = parser.parse_args()
-
-    if args.webhook_url:
-        return ParsedArgs(
-            webhook_url=args.webhook_url,
-            message=args.message,
-            message_level=args.level,
-            file_path=args.file,
-        )
-
-    if args.level == message_.MessageLevel.INFO:
-        webhook_env_name = "WEBHOOK_URL"
-    else:
-        webhook_env_name = "WEBHOOK_URL_ERROR"
-
-    webhook_url = os.getenv(webhook_env_name)
+    webhook_url = _conf.webhook_url(args)
 
     if webhook_url is None:
-        print(
-            f"{webhook_env_name} not found in .env or as an env var, and --webhook_url not set"
-        )
+        print(f"{_message_level.WEBHOOK_ENV_NAME.get(args.level)} not set")
         sys.exit(1)
 
     return ParsedArgs(

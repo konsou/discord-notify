@@ -5,7 +5,7 @@ from typing import NamedTuple, Optional, Literal
 
 import dotenv
 
-import message as message_
+import _message_level as message_
 
 dotenv.load_dotenv()
 

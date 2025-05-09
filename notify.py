@@ -4,7 +4,7 @@ import _send
 
 
 def main():
-    args = _args.parse_args()
+    args: _args.ParsedArgs = _args.parse_args()
     _send.send(args)
 
 

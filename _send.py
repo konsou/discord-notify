@@ -11,8 +11,9 @@ def send(args: ParsedArgs):
 
     response = requests.post(args.webhook_url, data=data, files=files)
 
-    # Check for success
     if response.status_code in (200, 204):
-        print("Message sent successfully.")
+        print(f"Discord {args.message_level.value} notification sent successfully")
     else:
-        print(f"Failed to send message. Status code: {response.status_code}")
+        print(
+            f"Failed to send Discord {args.message_level.value} message. Status code: {response.status_code}"
+        )

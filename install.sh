@@ -6,7 +6,7 @@ if [[ -z "${VIRTUAL_ENV}" ]]; then
   exit 1
 fi
 
-read -p "Install discord-notify (and link notify-discord) to ${DEST}? (y/n) " yn
+read -pr "Install discord-notify (and link notify-discord) to ${DEST}? (y/n) " yn
 case $yn in
   [Yy]* )
     pyinstaller --onefile notify.py

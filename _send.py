@@ -18,6 +18,9 @@ def send(args: ParsedArgs) -> ExitCode:
         print(
             f"WARNING: Failed to send Discord message - got response 413 (payload too large). Retrying without attachment..."
         )
+        data["content"] = (
+            f"{data['content']}\n\nWARNING: Attachment missing, was too large: {files['file'].name}"
+        )
         response = requests.post(args.webhook_url, data=data)
 
     if response.status_code in (200, 204):

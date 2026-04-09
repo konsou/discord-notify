@@ -28,7 +28,7 @@ def send(args: ParsedArgs) -> ExitCode:
     else:
         exit_code = ExitCode.ERROR
         print(
-            f"Failed to send Discord {args.message_level.value} message. Status code: {response.status_code}"
+            f"Failed to send Discord {args.message_level.value} message. Status code: {response.status_code}. Response: {response}"
         )
 
     return exit_code
